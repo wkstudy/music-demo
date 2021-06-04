@@ -1,26 +1,47 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
-];
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
-});
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/',
+      redirect: 'index'
+    },
+    {
+      // 首页
+      path: '/index',
+      name: 'index',
+      component: () => import('@/page/Index.vue'),
+      children: [
+        {
+          // 默认渲染 推荐页面
+          path: '',
+          component: () => import('@/page/Recommend.vue'),
+        },
+        {
+          path: 'recommend',
+          name: 'recommend',
+          component: () => import('@/page/Recommend.vue'),
+        },
+        {
+          path: 'singer',
+          name: 'singer',
+          component: () => import('@/page/Singer.vue'),
+        },
+        {
+          path: 'rank',
+          name: 'rank',
+          component: () => import('@/page/Rank.vue'),
+        }
+      ]
+    },
+    {
+      // 歌单
+      path: '/songsheet',
+      name: 'songsheet',
+      component: () => import('@/page/SongSheet.vue'),
+    }
+  ],
+})
 
 export default router;

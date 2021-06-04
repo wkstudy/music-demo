@@ -1,30 +1,45 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view />
+  <router-view/>
+  <!-- 有播放器时防止把最下面的内容遮住 -->
+  <div v-if="show" class="bottom-space"></div>
+  <mini-play></mini-play>
 </template>
 
-<style lang="less">
+<script lang="ts">
+import { computed, defineComponent, onMounted } from 'vue'
+import MiniPlay from './components/common/MiniPlay.vue'
+import { useStore } from './store'
+export default defineComponent({
+  name: 'App',
+  components: {
+    MiniPlay
+  },
+  setup() {
+    const store = useStore();
+    const show = computed(() => store.state.show);
+    // 第一次打开应用默认不播放音乐
+    onMounted(() =>{
+      store.commit('MutateDisplayStatus', {show: false})
+      store.commit('MutatePause', {pause: true})
+      store.commit('MutateSongList', {tracks: []})
+      store.commit('MutateCurrentPos', {curPos: 0})
+      store.dispatch('ActSongUrls', {id: ''})
+    })
+
+    return {
+      show,
+    }
+  }
+})
+</script>
+
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.bottom-space {
+  height: 80px;
 }
 </style>

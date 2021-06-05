@@ -1,52 +1,51 @@
 <template>
-<!-- 歌单 -->
-<section class="container">
-  <img :src="bgImg || iconImg" class="bg">
-  <div class="header">
-    <div class="header__flag">
-      <img :src="iconImg">
-      <div class="header__flag__desc">
-        <span class="iconfont icon-erji"></span>
-        {{numberChange(playCount)}}</div>
-    </div>
-    <div class="header__title">
-      <div class="header__title__info">{{title}}</div>
-      <div class="header__title__creator">
-        <img :src="creator && creator.avatarUrl" alt="" class="avatar">
-        <div class="name">{{creator && creator.nickname}}</div>
+  <!-- 歌单 -->
+  <section class="container">
+    <img :src="bgImg || iconImg" class="bg" />
+    <div class="header">
+      <div class="header__flag">
+        <img :src="iconImg" />
+        <div class="header__flag__desc">
+          <span class="iconfont icon-erji"></span>
+          {{ numberChange(playCount) }}
+        </div>
+      </div>
+      <div class="header__title">
+        <div class="header__title__info">{{ title }}</div>
+        <div class="header__title__creator">
+          <img :src="creator && creator.avatarUrl" alt="" class="avatar" />
+          <div class="name">{{ creator && creator.nickname }}</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <van-grid>
-      <van-grid-item class="fn__list">
-        <span class="iconfont icon-pinglun"></span>
-        <div>评论</div>
-      </van-grid-item>
-      <van-grid-item class="fn__list">
-        <span class="iconfont icon-pinglun"></span>
-        <div>点赞</div>
-      </van-grid-item>
-      <van-grid-item class="fn__list">
-        <span class="iconfont icon-jia"></span>
-        <div>收藏</div>
-      </van-grid-item>
-      <van-grid-item class="fn__list">
-        <span class="iconfont icon-gengduo"></span>
-        <div>更多</div>
-      </van-grid-item>
-    </van-grid>
-  </div>
-</section>
+    <div>
+      <van-grid>
+        <van-grid-item class="fn__list">
+          <span class="iconfont icon-pinglun"></span>
+          <div>评论</div>
+        </van-grid-item>
+        <van-grid-item class="fn__list">
+          <span class="iconfont icon-pinglun"></span>
+          <div>点赞</div>
+        </van-grid-item>
+        <van-grid-item class="fn__list">
+          <span class="iconfont icon-jia"></span>
+          <div>收藏</div>
+        </van-grid-item>
+        <van-grid-item class="fn__list">
+          <span class="iconfont icon-gengduo"></span>
+          <div>更多</div>
+        </van-grid-item>
+      </van-grid>
+    </div>
+  </section>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs } from 'vue'
-import { numberChange } from '../../utils/utils';
-// @ts-ignore：暂时无法解析 自定义路径 的位置
-import { Creator } from '../../../api/data';
+import { defineComponent, PropType, ref, toRefs } from "vue";
+import { numberChange } from "../../utils/utils";
+import { Creator } from "../../api/data.d";
 export default defineComponent({
   props: {
-    aa: Number,
     bgImg: String,
     playCount: {
       type: Number,
@@ -56,20 +55,16 @@ export default defineComponent({
     title: {
       type: String as PropType<string>,
     },
-    creator: Creator,
+    creator: Object as PropType<Creator>,
   },
+  // TODO 了解ts语法，为啥这里直接写Creator不对
   setup(props) {
-    const { bgImg, iconImg, playCount, title, creator} = toRefs(props);
     return {
-      bgImg,
-      iconImg,
-      playCount,
-      title,
-      creator,
-      numberChange
-    }
+      ...toRefs(props),
+      numberChange,
+    };
   },
-})
+});
 </script>
 <style lang="less" scoped>
 .container {
@@ -104,7 +99,7 @@ export default defineComponent({
         top: 2px;
         right: 2px;
         margin: 0px;
-        font-size: 12px!important;
+        font-size: 12px !important;
         color: rgb(241, 241, 241);
 
         .iconfont {

@@ -1,10 +1,9 @@
-import { SearchType } from '../utils/CONST';
+import { SearchType } from "../utils/CONST";
 export interface SearchReqData {
   keywords: string;
   limit?: number; // 默认30， 用于分页
   type?: SearchType; // 类型
 }
-
 
 // banner
 
@@ -19,8 +18,7 @@ export interface BannerResType {
   banners: BannerItem[];
 }
 
-
-// 
+//
 export interface SongSheetItem {
   alg: string;
   canDislike: boolean;
@@ -38,7 +36,7 @@ export interface SongSheetRes {
   category: number;
   code: number;
   hasTaste: boolean;
-  result: SongSheetItem[]
+  result: SongSheetItem[];
 }
 
 // -------------------
@@ -205,7 +203,7 @@ interface Ar {
   alias: any[];
 }
 
-export class  Creator {
+export class Creator {
   defaultAvatar: boolean;
   province: number;
   authStatus: number;
@@ -246,7 +244,7 @@ interface AvatarDetail {
 }
 
 interface Experts {
-  '2': string;
+  "2": string;
 }
 
 interface Subscriber {
@@ -282,7 +280,6 @@ interface Subscriber {
   anchor: boolean;
   avatarImgId_str: string;
 }
-
 
 //=============
 // 获取音乐 url

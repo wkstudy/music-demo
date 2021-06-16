@@ -1,12 +1,12 @@
 <template>
   <div class="navbar">
     <span class="iconfont icon-fanhui" @click="back"></span>
-    <span class="title">{{title}}</span>
+    <span class="title">{{ title }}</span>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, toRef, toRefs } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { defineComponent, toRef, toRefs } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 export default defineComponent({
   props: {
@@ -17,15 +17,15 @@ export default defineComponent({
     const router = useRouter();
 
     const back = () => {
-      router.back()
-    }
+      router.back();
+    };
 
     return {
-      title,
-      back
-    }
+      ...toRefs(props),
+      back,
+    };
   },
-})
+});
 </script>
 <style lang="less" scoped>
 .navbar {

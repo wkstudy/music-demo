@@ -1,31 +1,38 @@
 <template>
-<div class="list">
-  <div class="list__header">
-    <span class="iconfont icon-bofang"></span>
-    <div class="list__header__num">
-      <span>播放全部</span>
-      <span>(共{{tracks.length}}首)</span>
+  <div class="list">
+    <div class="list__header">
+      <span class="iconfont icon-bofang"></span>
+      <div class="list__header__num">
+        <span>播放全部</span>
+        <span>(共{{ tracks.length }}首)</span>
+      </div>
+      <div v-if="!!collect" class="list__header__collect">
+        <span class="iconfont icon-jia"></span>
+        <span>收藏({{ numberChange(collect) }})</span>
+      </div>
     </div>
-    <div v-if="!!collect" class="list__header__collect">
-      <span class="iconfont icon-jia"></span>
-      <span>收藏({{numberChange(collect)}})</span> 
-    </div>
-  </div>
-  <div class="list__cnt">
-    <div v-for="(track, index) in tracks" :key="track.id" class="tracks" @click="handleClick(track.id)">
-      <div class="tracks__pos">{{index + 1}}</div>
-      <div class="tracks__cnt">
-        <div class="tracks__cnt__name ellipsis">{{track.name}}</div>
-        <div class="tracks__cnt__info ellipsis">{{songAuthor(track.ar)}} - {{track.al.name}}</div>
+    <div class="list__cnt">
+      <div
+        v-for="(track, index) in tracks"
+        :key="track.id"
+        class="tracks"
+        @click="handleClick(track.id)"
+      >
+        <div class="tracks__pos">{{ index + 1 }}</div>
+        <div class="tracks__cnt">
+          <div class="tracks__cnt__name ellipsis">{{ track.name }}</div>
+          <div class="tracks__cnt__info ellipsis">
+            {{ songAuthor(track.ar) }} - {{ track.al.name }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from 'vue'
-import { numberChange, songAuthor } from '../../utils/utils';
-import { Track } from '../../api/data'
+import { defineComponent, PropType, toRefs } from "vue";
+import { numberChange, songAuthor } from "../../utils/utils";
+import { Track } from "../../api/data";
 
 export default defineComponent({
   props: {
@@ -34,31 +41,28 @@ export default defineComponent({
       required: false,
     },
     tracks: {
-      type:  Array as  PropType<Track[]>,
+      type: Array as PropType<Track[]>,
       required: true,
     },
   },
   emits: {
     play: (payload: number) => {
-      return !isNaN(payload)
-    }
+      return !isNaN(payload);
+    },
   },
   setup(props, { emit }) {
-    const { collect, tracks } = toRefs(props);
-
     const handleClick = (id: number) => {
-      emit('play', id);
-    }
+      emit("play", id);
+    };
 
     return {
-      collect,
+      ...toRefs(props),
       numberChange,
-      tracks,
       songAuthor,
-      handleClick
-    }
+      handleClick,
+    };
   },
-})
+});
 </script>
 <style lang="less" scoped>
 .list {
@@ -83,11 +87,11 @@ export default defineComponent({
     .list__header__num {
       flex: 1;
       font-size: 16px;
-      
-        &>span:last-child {
-          font-size: 12px;
-          color: rgb(187, 168, 168);
-        }
+
+      & > span:last-child {
+        font-size: 12px;
+        color: rgb(187, 168, 168);
+      }
     }
 
     .list__header__collect {
@@ -109,13 +113,13 @@ export default defineComponent({
     border-radius: 10px;
     opacity: 0.98;
     background: rgb(255, 255, 255);
-  
+
     .tracks {
       display: flex;
       justify-content: center;
       align-content: center;
       height: 60px;
-  
+
       .tracks__pos {
         font-size: 16px;
         flex-basis: 60px;
@@ -134,19 +138,19 @@ export default defineComponent({
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-  
+
         .tracks__cnt__name {
           font-size: 16px;
           color: rgb(46, 48, 48);
         }
-  
+
         .tracks__cnt__info {
           font-size: 12px;
           color: rgb(187, 168, 168);
-          
+
           text-overflow: ellipsis;
           overflow: hidden;
-          white-space: nowrap
+          white-space: nowrap;
         }
       }
     }
